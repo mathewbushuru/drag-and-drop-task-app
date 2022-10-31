@@ -6,7 +6,15 @@ import { DragDropContext } from "react-beautiful-dnd";
 const App = () => {
   const [data, setData] = useState(initialData);
 
+  const dragStartHandler = (start) => {
+    document.body.style.color = "orange";
+    document.body.style.backgroundColor = "#eee";
+  };
+  const dragUpdateHandler = (update) => {};
+
   const dragEndHandler = (result) => {
+    document.body.style.color = "inherit";
+    document.body.style.backgroundColor = "inherit";
     //reorder column
     //result.destination null if draggable not dropped in a droppable
     const { destination, source, draggableId } = result;
@@ -30,7 +38,7 @@ const App = () => {
     `);
 
     //Retrieve the column
-   const column = data.columns[source.droppableId];
+    const column = data.columns[source.droppableId];
 
     //new taskIds array with same content as last array
     //create new objects now instead  of mutating  state
@@ -58,7 +66,11 @@ const App = () => {
   };
 
   return (
-    <DragDropContext onDragEnd={dragEndHandler}>
+    <DragDropContext
+      onDragEnd={dragEndHandler}
+      onDragStart={dragStartHandler}
+      onDragUpdate={dragUpdateHandler}
+    >
       {data.columnOrder.map((columnId) => {
         const column = data.columns[columnId];
         const tasks = column.taskIds.map((taskId) => data.tasks[taskId]);
