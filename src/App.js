@@ -2,12 +2,17 @@ import React, { useState } from "react";
 import initialData from "./data/initial-data";
 import Column from "./components/Column";
 import { DragDropContext } from "react-beautiful-dnd";
+import styled from "styled-components";
+
+const Container = styled.div`
+  display: flex;
+`;
 
 const App = () => {
   const [data, setData] = useState(initialData);
 
   const dragStartHandler = (start) => {
-    document.body.style.color = "orange";
+    document.body.style.color = "grey";
     document.body.style.backgroundColor = "#eee";
   };
   const dragUpdateHandler = (update) => {};
@@ -66,19 +71,21 @@ const App = () => {
   };
 
   return (
-    <DragDropContext
-      onDragEnd={dragEndHandler}
-      onDragStart={dragStartHandler}
-      onDragUpdate={dragUpdateHandler}
-    >
-      {data.columnOrder.map((columnId) => {
-        const column = data.columns[columnId];
-        const tasks = column.taskIds.map((taskId) => data.tasks[taskId]);
+    <Container>
+      <DragDropContext
+        onDragEnd={dragEndHandler}
+        onDragStart={dragStartHandler}
+        onDragUpdate={dragUpdateHandler}
+      >
+        {data.columnOrder.map((columnId) => {
+          const column = data.columns[columnId];
+          const tasks = column.taskIds.map((taskId) => data.tasks[taskId]);
 
-        // return column.title;
-        return <Column key={column.id} column={column} tasks={tasks} />;
-      })}
-    </DragDropContext>
+          // return column.title;
+          return <Column key={column.id} column={column} tasks={tasks} />;
+        })}
+      </DragDropContext>
+    </Container>
   );
 };
 
