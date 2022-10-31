@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import Task from "./Task";
 import { Draggable, Droppable } from "react-beautiful-dnd";
+import StrictModeDroppable from "./StrictModeDroppable";
 
 const Container = styled.div`
   margin: 8px;
@@ -36,7 +37,13 @@ const Column = (props) => {
         Here 3rd column will have type 'done' and 1st  two  will  be type 'active'
         Can move tasks between to-do, progress and done but not backlog.
         */}
-          <Droppable
+          {/* <Droppable
+            droppableId={props.column.id}
+            // type={props.column.id === "column-4" ? "backlog" : "active"}
+            type="task"
+            direction="vertical"
+          > */}
+          <StrictModeDroppable
             droppableId={props.column.id}
             // type={props.column.id === "column-4" ? "backlog" : "active"}
             type="task"
@@ -54,7 +61,8 @@ const Column = (props) => {
                 {provided.placeholder}
               </TaskList>
             )}
-          </Droppable>
+          {/* </Droppable> */}
+          </StrictModeDroppable>
         </Container>
       )}
     </Draggable>

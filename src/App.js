@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import initialData from "./data/initial-data";
 import Column from "./components/Column";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import StrictModeDroppable from "./components/StrictModeDroppable";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -117,7 +118,12 @@ const App = () => {
       onDragStart={dragStartHandler}
       onDragUpdate={dragUpdateHandler}
     >
-      <Droppable droppableId="all-columns" direction="horizontal" type="column">
+      {/* <Droppable droppableId="all-columns" direction="horizontal" type="column"> */}
+      <StrictModeDroppable
+        droppableId="all-columns"
+        direction="horizontal"
+        type="column"
+      >
         {(provided) => (
           <Container {...provided.droppableProps} ref={provided.innerRef}>
             {data.columnOrder.map((columnId, index) => {
@@ -137,7 +143,8 @@ const App = () => {
             {provided.placeholder}
           </Container>
         )}
-      </Droppable>
+        {/* </Droppable> */}
+      </StrictModeDroppable>
     </DragDropContext>
   );
 };
