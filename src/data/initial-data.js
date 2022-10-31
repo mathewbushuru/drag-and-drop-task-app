@@ -23,7 +23,7 @@ const initialData = {
     },
     "column-4": {
       id: "column-4",
-      title: "Backlog",
+      title: "Backlog[DRAG DISABLED]",
       taskIds: [],
     },
   },
