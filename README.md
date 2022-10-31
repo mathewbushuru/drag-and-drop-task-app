@@ -1,1 +1,3 @@
-Drag and Drop app using `react-beautiful-dnd` and  `styled-components` library for styling
+- Drag and Drop app using `react-beautiful-dnd` and  `styled-components` library for styling
+-  Normal drag and drop using mouse
+- Keyboard drag and drop enabled too! Use tab to navigate between tasks, Spacebar to select  task, and Up/Down/Left/Right arrow  keys to drag task, Spacebar  again to end drag, and Esc to cancel drag
