@@ -54,6 +54,7 @@ const App = () => {
       },
     };
     setData(newData);
+    //Call Server endpoint here for server to know a reorder has occured
   };
 
   return (
