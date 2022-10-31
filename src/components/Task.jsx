@@ -14,10 +14,6 @@ const Container = styled.div`
       ? "lightgreen"
       : "white"};
   display: flex;
-
-  //For horizontal drag
-  width:  40px;
-  height: 40px;
 `;
 const Handle = styled.div`
   width: 20px;
@@ -44,7 +40,7 @@ const Task = (props) => {
           isDragDisabled={isDragDisabled}
         >
           {/* <Handle {...provided.dragHandleProps}/> */}
-          {props.task.content[0]}
+          {props.task.content}
         </Container>
       )}
     </Draggable>
