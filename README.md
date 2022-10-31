@@ -1,1 +1,1 @@
-Drag and Drop app using `react-beautiful-dnd`
+Drag and Drop app using `react-beautiful-dnd` and  `styled-components` library for styling

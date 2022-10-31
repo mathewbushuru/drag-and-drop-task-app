@@ -7,7 +7,6 @@ const App = () => {
 
   return (
     <>
-      <div>Hello World App </div>
       {data.columnOrder.map((columnId) => {
         const column = data.columns[columnId];
         const tasks = column.taskIds.map((taskId) => data.tasks[taskId]);
