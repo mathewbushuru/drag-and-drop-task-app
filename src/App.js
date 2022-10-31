@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import initialData from "./data/initial-data";
 import Column from "./components/Column";
-import { DragDropContext } from "react-beautiful-dnd";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -101,21 +101,26 @@ const App = () => {
   };
 
   return (
-    <Container>
-      <DragDropContext
-        onDragEnd={dragEndHandler}
-        onDragStart={dragStartHandler}
-        onDragUpdate={dragUpdateHandler}
-      >
-        {data.columnOrder.map((columnId) => {
-          const column = data.columns[columnId];
-          const tasks = column.taskIds.map((taskId) => data.tasks[taskId]);
+    <DragDropContext
+      onDragEnd={dragEndHandler}
+      onDragStart={dragStartHandler}
+      onDragUpdate={dragUpdateHandler}
+    >
+      <Droppable droppableId="all-columns" direction="horizontal" type="column">
+        {(provided) => (
+          <Container {...provided.droppableProps} ref={provided.innerRef}>
+            {data.columnOrder.map((columnId) => {
+              const column = data.columns[columnId];
+              const tasks = column.taskIds.map((taskId) => data.tasks[taskId]);
 
-          // return column.title;
-          return <Column key={column.id} column={column} tasks={tasks} />;
-        })}
-      </DragDropContext>
-    </Container>
+              // return column.title;
+              return <Column key={column.id} column={column} tasks={tasks} />;
+            })}
+            {provided.placeholder}
+          </Container>
+        )}
+      </Droppable>
+    </DragDropContext>
   );
 };
 
