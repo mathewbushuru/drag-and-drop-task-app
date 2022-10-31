@@ -27,7 +27,15 @@ const Column = (props) => {
   return (
     <Container>
       <Title>{props.column.title} </Title>
-      <Droppable droppableId={props.column.id}>
+      {/* 
+      Draggable can only be dropped into a droppabel that shares the same type
+      Here 3rd column will have type 'done' and 1st  two  will  be type 'active'
+      Can move tasks between to-do, progress and done but not backlog.
+      */}
+      <Droppable
+        droppableId={props.column.id}
+        type={props.column.id === "column-4" ? "backlog" : "active"}
+      >
         {(provided, snapshot) => (
           <TaskList
             ref={provided.innerRef}
