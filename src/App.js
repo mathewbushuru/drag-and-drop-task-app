@@ -5,7 +5,10 @@ import { DragDropContext } from "react-beautiful-dnd";
 import styled from "styled-components";
 
 const Container = styled.div`
+  margin-top: 18px;
+
   display: flex;
+  justify-content: center;
 `;
 
 const App = () => {
@@ -43,31 +46,58 @@ const App = () => {
     `);
 
     //Retrieve the column
-    const column = data.columns[source.droppableId];
+    const startColumn = data.columns[source.droppableId];
+    const finishColumn = data.columns[destination.droppableId];
 
-    //new taskIds array with same content as last array
-    //create new objects now instead  of mutating  state
-    const newTaskIds = Array.from(column.taskIds);
+    if (startColumn === finishColumn) {
+      //new taskIds array with same content as last array
+      //create new objects now instead  of mutating  state
+      const newTaskIds = Array.from(startColumn.taskIds);
 
-    //move the task  id  from  the old index to the new index by reordering the array
-    //at source.index,  remove one item
-    newTaskIds.splice(source.index, 1);
-    //at destination.index, remove nothing but insert 1 item
-    newTaskIds.splice(destination.index, 0, draggableId);
+      //move the task  id  from  the old index to the new index by reordering the array
+      //at source.index,  remove one item
+      newTaskIds.splice(source.index, 1);
+      //at destination.index, remove nothing but insert 1 item
+      newTaskIds.splice(destination.index, 0, draggableId);
 
-    const newColumn = {
-      ...column,
-      taskIds: newTaskIds,
+      const newColumn = {
+        ...startColumn,
+        taskIds: newTaskIds,
+      };
+      const newData = {
+        ...data,
+        columns: {
+          ...data.columns,
+          [newColumn.id]: newColumn,
+        },
+      };
+      setData(newData);
+      //Call Server endpoint here for server to know a reorder has occured
+      return;
+    }
+
+    //Moving from one list to another
+    const startTaskIds = Array.from(startColumn.taskIds);
+    startTaskIds.splice(source.index, 1);
+    const newStartColumn = {
+      ...startColumn,
+      taskIds: startTaskIds,
+    };
+    const finishTaskIds = Array.from(finishColumn.taskIds);
+    finishTaskIds.splice(destination.index, 0, draggableId);
+    const newFinishColumn = {
+      ...finishColumn,
+      taskIds: finishTaskIds,
     };
     const newData = {
       ...data,
       columns: {
         ...data.columns,
-        [newColumn.id]: newColumn,
+        [newStartColumn.id]: newStartColumn,
+        [newFinishColumn.id]: newFinishColumn,
       },
     };
     setData(newData);
-    //Call Server endpoint here for server to know a reorder has occured
   };
 
   return (
