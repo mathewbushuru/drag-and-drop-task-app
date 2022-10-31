@@ -1,4 +1,6 @@
-- Drag and Drop app using `react-beautiful-dnd` and  `styled-components` library for styling
+- View app  [here](https://drag-and-drop-app.mathewbushuru.vercel.app/) : https://drag-and-drop-app.mathewbushuru.vercel.app/
+- Simple Kanban-style drag-and-drop app built in preparation for implementing a similar feature for [Labby](https://github.com/ubclaunchpad/labby)
+- Drag and Drop app using `react-beautiful-dnd` and  `styled-components` for styling
 -  Normal drag and drop using mouse
 - Keyboard drag and drop enabled too! Use tab to navigate between tasks, Spacebar to select  task, and Up/Down/Left/Right arrow  keys to drag task, Spacebar  again to end drag, and Esc to cancel drag
 - Drag tasks within/inside a list
