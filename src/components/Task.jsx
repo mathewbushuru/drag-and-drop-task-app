@@ -30,6 +30,7 @@ const Task = (props) => {
       draggableId={props.task.id}
       index={props.index}
       isDragDisabled={isDragDisabled}
+      type="task"
     >
       {(provided, snapshot) => (
         <Container
