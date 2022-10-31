@@ -1,9 +1,9 @@
 const initialData = {
   tasks: {
-    "task-1": { id: "task-1", content: "Take trash out" },
+    "task-1": { id: "task-1", content: "Groceries[DRAG DISABLED]" },
     "task-2": { id: "task-2", content: "Finish ELEC 400M assignment" },
     "task-3": { id: "task-3", content: "Go to gym" },
-    "task-4": { id: "task-4", content: "Do  groceries" },
+    "task-4": { id: "task-4", content: "Take trash out" },
   },
   columns: {
     "column-1": {
@@ -17,13 +17,13 @@ const initialData = {
       taskIds: [],
     },
     "column-3": {
-        id: "column-3",
-        title: "Done",
-        taskIds: [],
-      },
+      id: "column-3",
+      title: "Done",
+      taskIds: [],
+    },
   },
   //For reordering of columns
-  columnOrder: ["column-1","column-2","column-3"],
+  columnOrder: ["column-1", "column-2", "column-3"],
 };
 
 export default initialData;
