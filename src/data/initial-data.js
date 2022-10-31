@@ -11,24 +11,25 @@ const initialData = {
       title: "To Do",
       taskIds: ["task-1", "task-2", "task-3", "task-4"],
     },
-    "column-2": {
-      id: "column-2",
-      title: "In progress",
-      taskIds: [],
-    },
-    "column-3": {
-      id: "column-3",
-      title: "Done",
-      taskIds: [],
-    },
-    "column-4": {
-      id: "column-4",
-      title: "Backlog[DRAG DISABLED]",
-      taskIds: [],
-    },
+    // "column-2": {
+    //   id: "column-2",
+    //   title: "In progress",
+    //   taskIds: [],
+    // },
+    // "column-3": {
+    //   id: "column-3",
+    //   title: "Done",
+    //   taskIds: [],
+    // },
+    // "column-4": {
+    //   id: "column-4",
+    //   title: "Backlog[DRAG DISABLED]",
+    //   taskIds: [],
+    // },
   },
   //For reordering of columns
-  columnOrder: ["column-1", "column-2", "column-3", "column-4"],
+//   columnOrder: ["column-1", "column-2", "column-3", "column-4"],
+columnOrder: ["column-1"],
 };
 
 export default initialData;

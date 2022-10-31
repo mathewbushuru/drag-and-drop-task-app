@@ -7,7 +7,7 @@ const Container = styled.div`
   margin: 8px;
   border: 1px solid lightgrey;
   border-radius: 2px;
-  width: 250px;
+  // width: 250px;
 
   display: flex;
   flex-direction: column;
@@ -19,8 +19,10 @@ const TaskList = styled.div`
   padding: 8px;
   transition: background-color 0.2s ease;
   background-color: ${(props) => (props.isDraggingOver ? "skyblue" : "white")};
-  flex-grow: 1;
-  min-height: 100px;
+  // flex-grow: 1;
+  // min-height: 100px;
+
+  display: flex;
 `;
 
 const Column = (props) => {
@@ -28,13 +30,14 @@ const Column = (props) => {
     <Container>
       <Title>{props.column.title} </Title>
       {/* 
-      Draggable can only be dropped into a droppabel that shares the same type
+      Draggable can only be dropped into a droppable that shares the same type
       Here 3rd column will have type 'done' and 1st  two  will  be type 'active'
       Can move tasks between to-do, progress and done but not backlog.
       */}
       <Droppable
         droppableId={props.column.id}
         type={props.column.id === "column-4" ? "backlog" : "active"}
+        direction="horizontal"
       >
         {(provided, snapshot) => (
           <TaskList
