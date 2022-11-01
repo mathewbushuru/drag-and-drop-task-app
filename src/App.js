@@ -9,6 +9,7 @@ import styled from "styled-components";
 const Container = styled.div`
   margin-top: 18px;
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
 `;
 const Title = styled.h2`
