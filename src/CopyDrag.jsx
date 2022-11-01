@@ -4,17 +4,26 @@ import styled from "styled-components";
 import StrictModeDroppable from "./components/StrictModeDroppable";
 import { Draggable } from "react-beautiful-dnd";
 
+const Container = styled.div`
+  margin: 0.5rem;
+  display: flex;
+  flex-flow: row-reverse wrap;
+  justify-content: center;
+`;
+
 const List = styled.div`
   border: 1px
     ${(props) => (props.isDraggingOver ? "dashed  #000" : "solid #ddd")};
   background-color: white;
   padding: 0.5rem 0.5rem 0;
+  margin: 0.5rem 0.5rem;
   border-radius: 3px;
 `;
 const Kiosk = styled(List)`
-  position: absolute;
-  right: 0;
-  width: 200px;
+  // position: absolute;
+  // right: 0;
+  // width: 200px;
+  flex: 1 1  15%;
 `;
 const Item = styled.div`
   padding: 0.5rem;
@@ -29,7 +38,7 @@ const Clone = styled(Item)`
   // }
 `;
 const Content = styled(List)`
-  margin: 0 0.5rem;
+  flex: 6 3 80%;
 `;
 
 export const CopyDrag = () => {
@@ -62,56 +71,61 @@ export const CopyDrag = () => {
 
   return (
     <DragDropContext onDragEnd={dragEndHandler}>
-      <StrictModeDroppable droppableId="kioskDroppable" isDropDisabled={false}>
-        {(provided, snapshot) => (
-          <Kiosk
-            {...provided.droppableProps}
-            ref={provided.innerRef}
-            isDraggingOver={snapshot.isDraggingOver}
-          >
-            {/* {ITEMS.map((item, index) => (
+      <Container>
+        <StrictModeDroppable
+          droppableId="kioskDroppable"
+          isDropDisabled={false}
+        >
+          {(provided, snapshot) => (
+            <Kiosk
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+              isDraggingOver={snapshot.isDraggingOver}
+            >
+              {/* {ITEMS.map((item, index) => (
               <p key={item.id}>{item.content}</p>
             ))} */}
-            {ITEMS.map((item, index) => (
-              <Draggable key={item.id} draggableId={item.id} index={index}>
-                {(provided, snapshot) => (
-                  <>
-                    <Item
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      ref={provided.innerRef}
-                      isDragging={snapshot.isDragging}
-                    >
-                      {item.content}
-                    </Item>
-                    {snapshot.isDragging && <Clone>{item.content}</Clone>}
-                  </>
-                )}
-              </Draggable>
-            ))}
-            {provided.placeholder}
-          </Kiosk>
-        )}
-      </StrictModeDroppable>
+              {ITEMS.map((item, index) => (
+                <Draggable key={item.id} draggableId={item.id} index={index}>
+                  {(provided, snapshot) => (
+                    <>
+                      <Item
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        ref={provided.innerRef}
+                        isDragging={snapshot.isDragging}
+                      >
+                        {item.content}
+                      </Item>
+                      {snapshot.isDragging && <Clone>{item.content}</Clone>}
+                    </>
+                  )}
+                </Draggable>
+              ))}
+              {provided.placeholder}
+            </Kiosk>
+          )}
+        </StrictModeDroppable>
 
-      <StrictModeDroppable
-        droppableId="contentDroppable"
-        isDropDisabled={false}
-      >
-        {(provided, snapshot) => (
-          <Content
-            {...provided.droppableProps}
-            ref={provided.innerRef}
-            isDraggingOver={snapshot.isDraggingOver}
-          >
-            <p>
-              Drop elements here <br /> (Logic to persist elements not added
-              yet)
-            </p>
-            {provided.placeholder}
-          </Content>
-        )}
-      </StrictModeDroppable>
+        <StrictModeDroppable
+          droppableId="contentDroppable"
+          isDropDisabled={false}
+        >
+          {(provided, snapshot) => (
+            <Content
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+              isDraggingOver={snapshot.isDraggingOver}
+            >
+              <p>
+                Drop elements here <br /> (Logic to persist elements not added
+                yet)
+              </p>
+              {provided.placeholder}
+            </Content>
+          )}
+        </StrictModeDroppable>
+      </Container>
     </DragDropContext>
   );
 };
