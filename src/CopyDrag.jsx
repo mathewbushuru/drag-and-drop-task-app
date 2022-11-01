@@ -23,6 +23,7 @@ const Item = styled.div`
   border-radius: 3px;
   background-color: white;
 `;
+const Clone = styled(Item)``;
 
 export const CopyDrag = () => {
   const ITEMS = [
@@ -67,14 +68,17 @@ export const CopyDrag = () => {
             {ITEMS.map((item, index) => (
               <Draggable key={item.id} draggableId={item.id} index={index}>
                 {(provided, snapshot) => (
-                  <Item
-                    {...provided.draggableProps}
-                    {...provided.dragHandleProps}
-                    ref={provided.innerRef}
-                    isDragging={snapshot.isDragging}
-                  >
-                    {item.content}
-                  </Item>
+                  <>
+                    <Item
+                      {...provided.draggableProps}
+                      {...provided.dragHandleProps}
+                      ref={provided.innerRef}
+                      isDragging={snapshot.isDragging}
+                    >
+                      {item.content}
+                    </Item>
+                    {snapshot.isDragging && <Clone>{item.content}</Clone>}
+                  </>
                 )}
               </Draggable>
             ))}
