@@ -23,7 +23,14 @@ const Item = styled.div`
   border-radius: 3px;
   background-color: white;
 `;
-const Clone = styled(Item)``;
+const Clone = styled(Item)`
+  // + div {
+  //   display: none !important;
+  // }
+`;
+const Content = styled(List)`
+  margin: 0 0.5rem;
+`;
 
 export const CopyDrag = () => {
   const ITEMS = [
@@ -84,6 +91,25 @@ export const CopyDrag = () => {
             ))}
             {provided.placeholder}
           </Kiosk>
+        )}
+      </StrictModeDroppable>
+
+      <StrictModeDroppable
+        droppableId="contentDroppable"
+        isDropDisabled={false}
+      >
+        {(provided, snapshot) => (
+          <Content
+            {...provided.droppableProps}
+            ref={provided.innerRef}
+            isDraggingOver={snapshot.isDraggingOver}
+          >
+            <p>
+              Drop elements here <br /> (Logic to persist elements not added
+              yet)
+            </p>
+            {provided.placeholder}
+          </Content>
         )}
       </StrictModeDroppable>
     </DragDropContext>
