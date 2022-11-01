@@ -3,11 +3,15 @@ import initialData from "./data/initial-data";
 import Column from "./components/Column";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import StrictModeDroppable from "./components/StrictModeDroppable";
+import { CopyDrag } from "./CopyDrag";
 import styled from "styled-components";
 
 const Container = styled.div`
   margin-top: 18px;
-
+  display: flex;
+  justify-content: center;
+`;
+const Title = styled.h2`
   display: flex;
   justify-content: center;
 `;
@@ -113,39 +117,48 @@ const App = () => {
   };
 
   return (
-    <DragDropContext
-      onDragEnd={dragEndHandler}
-      onDragStart={dragStartHandler}
-      onDragUpdate={dragUpdateHandler}
-    >
-      {/* <Droppable droppableId="all-columns" direction="horizontal" type="column"> */}
-      <StrictModeDroppable
-        droppableId="all-columns"
-        direction="horizontal"
-        type="column"
+    <>
+      <DragDropContext
+        onDragEnd={dragEndHandler}
+        onDragStart={dragStartHandler}
+        onDragUpdate={dragUpdateHandler}
       >
-        {(provided) => (
-          <Container {...provided.droppableProps} ref={provided.innerRef}>
-            {data.columnOrder.map((columnId, index) => {
-              const column = data.columns[columnId];
-              const tasks = column.taskIds.map((taskId) => data.tasks[taskId]);
+        {/* <Droppable droppableId="all-columns" direction="horizontal" type="column"> */}
+        <StrictModeDroppable
+          droppableId="all-columns"
+          direction="horizontal"
+          type="column"
+        >
+          {(provided) => (
+            <>
+              <Title>Drag & Drop Kanban</Title>
+              <Container {...provided.droppableProps} ref={provided.innerRef}>
+                {data.columnOrder.map((columnId, index) => {
+                  const column = data.columns[columnId];
+                  const tasks = column.taskIds.map(
+                    (taskId) => data.tasks[taskId]
+                  );
 
-              // return column.title;
-              return (
-                <Column
-                  key={column.id}
-                  column={column}
-                  tasks={tasks}
-                  index={index}
-                />
-              );
-            })}
-            {provided.placeholder}
-          </Container>
-        )}
-        {/* </Droppable> */}
-      </StrictModeDroppable>
-    </DragDropContext>
+                  // return column.title;
+                  return (
+                    <Column
+                      key={column.id}
+                      column={column}
+                      tasks={tasks}
+                      index={index}
+                    />
+                  );
+                })}
+                {provided.placeholder}
+              </Container>
+            </>
+          )}
+          {/* </Droppable> */}
+        </StrictModeDroppable>
+      </DragDropContext>
+      <Title>Copy Drag Implementation</Title>
+      <CopyDrag/>
+    </>
   );
 };
 
