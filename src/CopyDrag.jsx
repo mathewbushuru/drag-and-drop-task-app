@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import styled from "styled-components";
 import StrictModeDroppable from "./components/StrictModeDroppable";
 import { Draggable } from "react-beautiful-dnd";
+
+import { droppedItems } from "./data/copy-drag-data";
 
 const Container = styled.div`
   margin: 0.5rem;
@@ -23,7 +25,7 @@ const Kiosk = styled(List)`
   // position: absolute;
   // right: 0;
   // width: 200px;
-  flex: 1 1  15%;
+  flex: 1 1 15%;
 `;
 const Item = styled.div`
   padding: 0.5rem;
@@ -42,6 +44,8 @@ const Content = styled(List)`
 `;
 
 export const CopyDrag = () => {
+  const [droppedItemsData, setDroppedItemsData] = useState(droppedItems);
+
   const ITEMS = [
     {
       id: "headingElement",
@@ -66,16 +70,27 @@ export const CopyDrag = () => {
   ];
 
   const dragEndHandler = (result) => {
-    console.log("Element  dropped");
+    const { destination, source, draggableId, type } = result;
+    if (!destination) {
+      return;
+    }
+    console.log(`
+        Drag ended. 
+        draggableId:${result.draggableId}. 
+        source-id:${result.source.droppableId}.
+        source-index:${result.source.index}.
+        destination-id:${result.destination.droppableId}.
+        destination-index:${result.destination.index}.
+    `);
+    if (result.destination.droppableId === "contentDroppable") {
+      console.log("Element  dropped  in content box");
+    }
   };
 
   return (
     <DragDropContext onDragEnd={dragEndHandler}>
       <Container>
-        <StrictModeDroppable
-          droppableId="kioskDroppable"
-          isDropDisabled={false}
-        >
+        <StrictModeDroppable droppableId="kioskDroppable" isDropDisabled={true}>
           {(provided, snapshot) => (
             <Kiosk
               {...provided.droppableProps}
@@ -117,10 +132,24 @@ export const CopyDrag = () => {
               ref={provided.innerRef}
               isDraggingOver={snapshot.isDraggingOver}
             >
-              <p>
-                Drop elements here <br /> (Logic to persist elements not added
-                yet)
-              </p>
+              <p>Drop elements here</p>
+              {droppedItemsData.map((item, index) => (
+                <Draggable key={item.id} draggableId={item.id} index={index}>
+                  {(provided, snapshot) => (
+                    <>
+                      <Item
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        ref={provided.innerRef}
+                        isDragging={snapshot.isDragging}
+                      >
+                        {item.content}
+                      </Item>
+                      {snapshot.isDragging && <Clone>{item.content}</Clone>}
+                    </>
+                  )}
+                </Draggable>
+              ))}
               {provided.placeholder}
             </Content>
           )}
