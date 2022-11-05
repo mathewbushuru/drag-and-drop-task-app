@@ -46,28 +46,37 @@ const Content = styled(List)`
 export const CopyDrag = () => {
   const [droppedItemsData, setDroppedItemsData] = useState(droppedItems);
 
-  const ITEMS = [
-    {
-      id: "headingElement",
-      content: "Heading",
+  const ITEMS = {
+    elements: {
+      headingElement: {
+        id: "headingElement",
+        content: "Heading",
+      },
+      textlineElement: {
+        id: "textlineElement",
+        content: "Text  Line",
+      },
+      imageElement: {
+        id: "imageElement",
+        content: "Image",
+      },
+      dropdownElement: {
+        id: "dropdownElement",
+        content: "Dropdown",
+      },
+      fileuploadElement: {
+        id: "fileuploadElement",
+        content: "FileUpload",
+      },
     },
-    {
-      id: "textlineElement",
-      content: "Text  Line",
-    },
-    {
-      id: "imageElement",
-      content: "Image",
-    },
-    {
-      id: "dropdownElement",
-      content: "Dropdown",
-    },
-    {
-      id: "fileuploadElement",
-      content: "FileUpload",
-    },
-  ];
+    elementIds: [
+      "headingElement",
+      "textlineElement",
+      "imageElement",
+      "dropdownElement",
+      "fileuploadElement",
+    ],
+  };
 
   const dragEndHandler = (result) => {
     const { destination, source, draggableId, type } = result;
@@ -100,8 +109,8 @@ export const CopyDrag = () => {
               {/* {ITEMS.map((item, index) => (
               <p key={item.id}>{item.content}</p>
             ))} */}
-              {ITEMS.map((item, index) => (
-                <Draggable key={item.id} draggableId={item.id} index={index}>
+              {ITEMS.elementIds.map((itemId, index) => (
+                <Draggable key={itemId} draggableId={itemId} index={index}>
                   {(provided, snapshot) => (
                     <>
                       <Item
@@ -110,9 +119,11 @@ export const CopyDrag = () => {
                         ref={provided.innerRef}
                         isDragging={snapshot.isDragging}
                       >
-                        {item.content}
+                        {ITEMS.elements[itemId].content}
                       </Item>
-                      {snapshot.isDragging && <Clone>{item.content}</Clone>}
+                      {snapshot.isDragging && (
+                        <Clone>{ITEMS.elements[itemId].content}</Clone>
+                      )}
                     </>
                   )}
                 </Draggable>
