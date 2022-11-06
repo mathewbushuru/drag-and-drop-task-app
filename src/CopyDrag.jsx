@@ -27,6 +27,9 @@ const Kiosk = styled(List)`
   // right: 0;
   // width: 200px;
   flex: 1 1 15%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 const Item = styled.div`
   padding: 0.5rem;
@@ -34,6 +37,9 @@ const Item = styled.div`
   border: 1px ${(props) => (props.isDragging ? "dashed #4099ff" : "solid #ddd")};
   border-radius: 3px;
   background-color: white;
+  cursor: pointer;
+  width: 160px;
+  text-align: center;
 `;
 const Clone = styled(Item)`
   // + div {
@@ -42,6 +48,9 @@ const Clone = styled(Item)`
 `;
 const Content = styled(List)`
   flex: 6 3 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 `;
 
 export const CopyDrag = () => {
@@ -153,7 +162,7 @@ export const CopyDrag = () => {
               ref={provided.innerRef}
               isDraggingOver={snapshot.isDraggingOver}
             >
-              <p>Drop elements here</p>
+              
               {droppedItemsData.map((item, index) => (
                 <Draggable key={item.id} draggableId={item.id} index={index}>
                   {(provided, snapshot) => (
