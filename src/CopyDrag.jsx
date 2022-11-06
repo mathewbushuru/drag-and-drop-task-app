@@ -3,6 +3,7 @@ import { DragDropContext } from "react-beautiful-dnd";
 import styled from "styled-components";
 import StrictModeDroppable from "./components/StrictModeDroppable";
 import { Draggable } from "react-beautiful-dnd";
+import { v4 as uuidv4 } from "uuid";
 
 import { droppedItems } from "./data/copy-drag-data";
 
@@ -93,6 +94,15 @@ export const CopyDrag = () => {
     `);
     if (result.destination.droppableId === "contentDroppable") {
       console.log("Element  dropped  in content box");
+      //Add to droppedItems  array  with new Id
+      const newDroppedItemContent = ITEMS.elements[draggableId].content;
+      const newDroppedItemId = uuidv4();
+      const newDroppedItem = {
+        id: newDroppedItemId,
+        content: newDroppedItemContent,
+      };
+      droppedItemsData.push(newDroppedItem);
+      setDroppedItemsData(droppedItemsData);
     }
   };
 
