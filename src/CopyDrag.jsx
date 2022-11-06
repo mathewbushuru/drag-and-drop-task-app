@@ -1,8 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import styled from "styled-components";
 import StrictModeDroppable from "./components/StrictModeDroppable";
 import { Draggable } from "react-beautiful-dnd";
+import { v4 as uuidv4 } from "uuid";
+
+import { droppedItems } from "./data/copy-drag-data";
 
 const Container = styled.div`
   margin: 0.5rem;
@@ -23,7 +26,10 @@ const Kiosk = styled(List)`
   // position: absolute;
   // right: 0;
   // width: 200px;
-  flex: 1 1  15%;
+  flex: 1 1 15%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 const Item = styled.div`
   padding: 0.5rem;
@@ -31,6 +37,9 @@ const Item = styled.div`
   border: 1px ${(props) => (props.isDragging ? "dashed #4099ff" : "solid #ddd")};
   border-radius: 3px;
   background-color: white;
+  cursor: pointer;
+  width: 160px;
+  text-align: center;
 `;
 const Clone = styled(Item)`
   // + div {
@@ -39,43 +48,77 @@ const Clone = styled(Item)`
 `;
 const Content = styled(List)`
   flex: 6 3 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
 `;
 
 export const CopyDrag = () => {
-  const ITEMS = [
-    {
-      id: "headingElement",
-      content: "Heading",
+  const [droppedItemsData, setDroppedItemsData] = useState(droppedItems);
+
+  const ITEMS = {
+    elements: {
+      headingElement: {
+        id: "headingElement",
+        content: "Heading",
+      },
+      textlineElement: {
+        id: "textlineElement",
+        content: "Text  Line",
+      },
+      imageElement: {
+        id: "imageElement",
+        content: "Image",
+      },
+      dropdownElement: {
+        id: "dropdownElement",
+        content: "Dropdown",
+      },
+      fileuploadElement: {
+        id: "fileuploadElement",
+        content: "FileUpload",
+      },
     },
-    {
-      id: "textlineElement",
-      content: "Text  Line",
-    },
-    {
-      id: "imageElement",
-      content: "Image",
-    },
-    {
-      id: "dropdownElement",
-      content: "Dropdown",
-    },
-    {
-      id: "fileuploadElement",
-      content: "FileUpload",
-    },
-  ];
+    elementIds: [
+      "headingElement",
+      "textlineElement",
+      "imageElement",
+      "dropdownElement",
+      "fileuploadElement",
+    ],
+  };
 
   const dragEndHandler = (result) => {
-    console.log("Element  dropped");
+    const { destination, source, draggableId, type } = result;
+    if (!destination) {
+      return;
+    }
+    console.log(`
+        Drag ended. 
+        draggableId:${result.draggableId}. 
+        source-id:${result.source.droppableId}.
+        source-index:${result.source.index}.
+        destination-id:${result.destination.droppableId}.
+        destination-index:${result.destination.index}.
+    `);
+    if (result.destination.droppableId === "contentDroppable") {
+      console.log("Element  dropped  in content box");
+      //Add to droppedItems  array  with new Id
+      const newDroppedItemContent = ITEMS.elements[draggableId].content;
+      const newDroppedItemId = uuidv4();
+      const newDroppedItem = {
+        id: newDroppedItemId,
+        content: newDroppedItemContent,
+      };
+      droppedItemsData.push(newDroppedItem);
+      setDroppedItemsData(droppedItemsData);
+    }
   };
 
   return (
     <DragDropContext onDragEnd={dragEndHandler}>
       <Container>
-        <StrictModeDroppable
-          droppableId="kioskDroppable"
-          isDropDisabled={false}
-        >
+        <StrictModeDroppable droppableId="kioskDroppable" isDropDisabled={true}>
           {(provided, snapshot) => (
             <Kiosk
               {...provided.droppableProps}
@@ -85,8 +128,8 @@ export const CopyDrag = () => {
               {/* {ITEMS.map((item, index) => (
               <p key={item.id}>{item.content}</p>
             ))} */}
-              {ITEMS.map((item, index) => (
-                <Draggable key={item.id} draggableId={item.id} index={index}>
+              {ITEMS.elementIds.map((itemId, index) => (
+                <Draggable key={itemId} draggableId={itemId} index={index}>
                   {(provided, snapshot) => (
                     <>
                       <Item
@@ -95,9 +138,11 @@ export const CopyDrag = () => {
                         ref={provided.innerRef}
                         isDragging={snapshot.isDragging}
                       >
-                        {item.content}
+                        {ITEMS.elements[itemId].content}
                       </Item>
-                      {snapshot.isDragging && <Clone>{item.content}</Clone>}
+                      {snapshot.isDragging && (
+                        <Clone>{ITEMS.elements[itemId].content}</Clone>
+                      )}
                     </>
                   )}
                 </Draggable>
@@ -117,10 +162,24 @@ export const CopyDrag = () => {
               ref={provided.innerRef}
               isDraggingOver={snapshot.isDraggingOver}
             >
-              <p>
-                Drop elements here <br /> (Logic to persist elements not added
-                yet)
-              </p>
+              
+              {droppedItemsData.map((item, index) => (
+                <Draggable key={item.id} draggableId={item.id} index={index}>
+                  {(provided, snapshot) => (
+                    <>
+                      <Item
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        ref={provided.innerRef}
+                        isDragging={snapshot.isDragging}
+                      >
+                        {item.content}
+                      </Item>
+                      {snapshot.isDragging && <Clone>{item.content}</Clone>}
+                    </>
+                  )}
+                </Draggable>
+              ))}
               {provided.placeholder}
             </Content>
           )}

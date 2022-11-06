@@ -158,6 +158,7 @@ const App = () => {
         </StrictModeDroppable>
       </DragDropContext>
       <Title>Copy Drag Implementation</Title>
+      <p style={{marginLeft: "18px"}}>Drop elements below: (Reordering in content box not yet implemented)</p>
       <CopyDrag/>
     </>
   );
